@@ -1,28 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Download, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Briefcase, 
-  GraduationCap, 
-  Award, 
-  Star, 
-  ChevronDown, 
-  Linkedin, 
+import React, { useState, useEffect } from 'react';
+import {
+  Download,
+  Mail,
+  Phone,
+  MapPin,
+  Briefcase,
+  GraduationCap,
+  Award,
+  Star,
+  Linkedin,
   Menu,
   X,
   Layers,
   Cpu,
   Users,
-  Image as ImageIcon,
-  ZoomIn,
   FileText,
   ChevronLeft,
   ChevronRight,
   Maximize2,
   MessageSquare
 } from 'lucide-react';
+
 
 // --- Data Section ---
 
