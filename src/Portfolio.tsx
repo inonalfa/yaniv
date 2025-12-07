@@ -131,8 +131,6 @@ const certificates = [
   "פרס יוספטל לבטיחות"
 ];
 
-// שמות הקבצים מתוך ה-Artifacts שהועלו. 
-// נוספו 12 התמונות החדשות תחת קטגוריית 'student_message'
 const galleryItems = [
   { id: 1, src: "https://www.bnf.co.il/wp-content/uploads/2025/12/צילום-מסך-2025-12-05-151843.png", title: "תואר B.Ed - מכללת דוד ילין", category: "certificate" },
   { id: 2, src: "https://www.bnf.co.il/wp-content/uploads/2025/12/צילום-מסך-2025-12-05-151909.png", title: "דיפלומת הנדסאי/טכנאי - מה\"ט", category: "certificate" },
@@ -151,7 +149,7 @@ const galleryItems = [
   { id: 15, src: "https://www.bnf.co.il/wp-content/uploads/2025/12/צילום-מסך-2025-12-05-152149.png", title: "המלצה לדרגה (צבא)", category: "recommendation" },
   { id: 16, src: "https://www.bnf.co.il/wp-content/uploads/2025/12/צילום-מסך-2025-12-05-151922.png", title: "רישום בפנקס הטכנאים (2014)", category: "certificate" },
   { id: 17, src: "https://www.bnf.co.il/wp-content/uploads/2025/12/צילום-מסך-2025-12-05-151856.png", title: "אישור זכאות לתואר", category: "certificate" },
-  
+
   // --- New Student Messages ---
   { id: 18, src: "https://www.bnf.co.il/wp-content/uploads/2025/03/%D7%99%D7%A0%D7%99%D7%91-%D7%90%D7%91%D7%A8%D7%94%D7%9D-%D7%94%D7%9E%D7%9C%D7%A6%D7%95%D7%AA-12-300x248.jpg", title: "הודעה מסטודנט 1", category: "student_message" },
   { id: 19, src: "https://www.bnf.co.il/wp-content/uploads/2025/03/%D7%99%D7%A0%D7%99%D7%91-%D7%90%D7%91%D7%A8%D7%94%D7%9D-%D7%94%D7%9E%D7%9C%D7%A6%D7%95%D7%AA-11-183x300.jpg", title: "הודעה מסטודנט 2", category: "student_message" },
@@ -166,6 +164,7 @@ const galleryItems = [
   { id: 28, src: "https://www.bnf.co.il/wp-content/uploads/2025/03/%D7%99%D7%A0%D7%99%D7%91-%D7%90%D7%91%D7%A8%D7%94%D7%9D-%D7%94%D7%9E%D7%9C%D7%A6%D7%95%D7%AA-2-300x128.jpg", title: "הודעה מסטודנט 11", category: "student_message" },
   { id: 29, src: "https://www.bnf.co.il/wp-content/uploads/2025/03/%D7%99%D7%A0%D7%99%D7%91-%D7%90%D7%91%D7%A8%D7%94%D7%9D-%D7%94%D7%9E%D7%9C%D7%A6%D7%95%D7%AA-1-300x279.jpg", title: "הודעה מסטודנט 12", category: "student_message" },
 ];
+
 
 // --- Components ---
 
