@@ -338,7 +338,7 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems; filter: 
                 setCurrentIndex(idx);
                 setIsLightboxOpen(true);
               }}
-              className="relative flex-shrink-0 w-90 h-90 rounded-lg overflow-hidden border-2 border-transparent snap-start active:scale-95 transition-all"
+              className="relative flex-shrink-0 w-[80%] h-auto rounded-lg overflow-hidden border-2 border-transparent snap-start active:scale-95 transition-all"
             >
               <img
                 src={getImagePath(item.src)}
