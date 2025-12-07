@@ -511,13 +511,15 @@ export default function Portfolio() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button
-                onClick={() => window.print()}
-                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200"
-              >
-                <Download size={20} />
-                הורד קורות חיים
-              </button>
+              <a
+  href="/yaniv-portfolio.pdf"
+  download="קורות חיים - יניב אברהם.pdf"
+  className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200"
+>
+  <Download size={20} />
+  הורד קורות חיים
+</a>
+
               <button
                 onClick={() => scrollTo('contact')}
                 className="flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-3.5 rounded-full font-bold transition-all shadow-sm"
