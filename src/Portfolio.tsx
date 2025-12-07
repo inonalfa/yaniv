@@ -260,6 +260,10 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
   };
 
   return (
+    <div
+    className="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden"
+    dir="rtl"
+  >
     <div className="max-w-5xl mx-auto">
       {/* Main Slider Display */}
       <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl aspect-[16/9] md:aspect-[2/1] group">
@@ -353,6 +357,7 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
