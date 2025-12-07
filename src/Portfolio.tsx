@@ -24,7 +24,7 @@ import {
 
 // --- Data Section ---
 
-const profileImageUrl = "https://www.bnf.co.il/wp-content/uploads/2025/03/תמונת-פרופיל-יניב-אברהם.jpg";
+const profileImageUrl = "/gallery/doc-30.png";
 
 const personalInfo = {
   name: "יניב אברהם",
@@ -141,7 +141,7 @@ const galleryItems = [
   { id: 6, src: "/gallery/doc-06.png", title: "המלצה - יהונתן נסים (קרן לעידוד הבנייה)", category: "recommendation" },
   { id: 7, src: "/gallery/doc-07.png", title: "המלצה - אילן ששון (אגף אכיפה)", category: "recommendation" },
   { id: 8, src: "/gallery/doc-08.png", title: "המלצה - שירות צבאי (בה\"ד 20)", category: "recommendation" },
-  { id: 9, src: "/gallery/doc-09.png", title: "סיכום והתרשמות - דרור שמיר", category: "recommendation" },
+  { id: 9, src: "/gallery/doc-09.png", title: "סיכום והתרשמות - דודי שמיר", category: "recommendation" },
   { id: 10, src: "/gallery/doc-10.png", title: "תעודת קורס Power BI", category: "certificate" },
   { id: 11, src: "/gallery/doc-11.png", title: "פרס מצוינות עיריית ירושלים", category: "certificate" },
   { id: 12, src: "/gallery/doc-12.png", title: "תעודת הצטיינות - ענף נשק", category: "certificate" },
