@@ -24,7 +24,7 @@ import {
 
 // --- Data Section ---
 
-const profileImageUrl = "/gallery/doc-30.png";
+const profileImageUrl = "/gallery/doc-30.jpg";
 
 const personalInfo = {
   name: "יניב אברהם",
@@ -152,18 +152,18 @@ const galleryItems = [
   { id: 17, src: "/gallery/doc-17.png", title: "אישור זכאות לתואר", category: "certificate" },
 
   // --- New Student Messages ---
-  { id: 18, src: "/gallery/doc-18.png", title: "הודעה מסטודנט 1", category: "student_message" },
-  { id: 19, src: "/gallery/doc-19.png", title: "הודעה מסטודנט 2", category: "student_message" },
-  { id: 20, src: "/gallery/doc-20.png", title: "הודעה מסטודנט 3", category: "student_message" },
-  { id: 21, src: "/gallery/doc-21.png", title: "הודעה מסטודנט 4", category: "student_message" },
-  { id: 22, src: "/gallery/doc-22.png", title: "הודעה מסטודנט 5", category: "student_message" },
-  { id: 23, src: "/gallery/doc-23.png", title: "הודעה מסטודנט 6", category: "student_message" },
-  { id: 24, src: "/gallery/doc-24.png", title: "הודעה מסטודנט 7", category: "student_message" },
-  { id: 25, src: "/gallery/doc-25.png", title: "הודעה מסטודנט 8", category: "student_message" },
-  { id: 26, src: "/gallery/doc-26.png", title: "הודעה מסטודנט 9", category: "student_message" },
-  { id: 27, src: "/gallery/doc-27.png", title: "הודעה מסטודנט 10", category: "student_message" },
-  { id: 28, src: "/gallery/doc-28.png", title: "הודעה מסטודנט 11", category: "student_message" },
-  { id: 29, src: "/gallery/doc-29.png", title: "הודעה מסטודנט 12", category: "student_message" },
+  { id: 18, src: "/gallery/doc-18.jpg", title: "הודעה מסטודנט 1", category: "student_message" },
+  { id: 19, src: "/gallery/doc-19.jpg", title: "הודעה מסטודנט 2", category: "student_message" },
+  { id: 20, src: "/gallery/doc-20.jpg", title: "הודעה מסטודנט 3", category: "student_message" },
+  { id: 21, src: "/gallery/doc-21.jpg", title: "הודעה מסטודנט 4", category: "student_message" },
+  { id: 22, src: "/gallery/doc-22.jpg", title: "הודעה מסטודנט 5", category: "student_message" },
+  { id: 23, src: "/gallery/doc-23.jpg", title: "הודעה מסטודנט 6", category: "student_message" },
+  { id: 24, src: "/gallery/doc-24.jpg", title: "הודעה מסטודנט 7", category: "student_message" },
+  { id: 25, src: "/gallery/doc-25.jpg", title: "הודעה מסטודנט 8", category: "student_message" },
+  { id: 26, src: "/gallery/doc-26.jpg", title: "הודעה מסטודנט 9", category: "student_message" },
+  { id: 27, src: "/gallery/doc-27.jpg", title: "הודעה מסטודנט 10", category: "student_message" },
+  { id: 28, src: "/gallery/doc-28.jpg", title: "הודעה מסטודנט 11", category: "student_message" },
+  { id: 29, src: "/gallery/doc-29.jpg", title: "הודעה מסטודנט 12", category: "student_message" },
 ];
 
 
