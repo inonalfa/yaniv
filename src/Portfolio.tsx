@@ -33,7 +33,7 @@ const personalInfo = {
   location: "מעלה אדומים",
   email: "Vy17206@gmail.com",
   phone: "055-6663320",
-  linkedin: "#" 
+  linkedin: "#"
 };
 
 const skills = [
@@ -167,7 +167,6 @@ const galleryItems = [
 ];
 
 
-
 // --- Components ---
 
 const SectionTitle = ({ title, subtitle }: { title: string, subtitle?: string }) => (
@@ -196,7 +195,7 @@ const SkillBar = ({ name, level, icon }: { name: string, level: number, icon: an
       <span className="text-slate-400 text-sm">{level}%</span>
     </div>
     <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-      <div 
+      <div
         className="bg-gradient-to-r from-blue-600 to-cyan-500 h-2.5 rounded-full transition-all duration-1000 ease-out"
         style={{ width: `${level}%` }}
       ></div>
@@ -209,7 +208,7 @@ const SkillBar = ({ name, level, icon }: { name: string, level: number, icon: an
 const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: string }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  
+
   // Filter items
   const filteredItems = items.filter(item => filter === 'all' || item.category === filter);
 
@@ -218,12 +217,17 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
     setCurrentIndex(0);
   }, [filter]);
 
-  // פונקציה לבדיקת נתיב תמונה: אם זה URL מלא, השתמש בו כפי שהוא; אם זה קובץ מקומי, הוסף '/' בתחילתו.
+  // פונקציה לבדיקת נתיב תמונה
   const getImagePath = (src: string) => {
+    // אם זה URL חיצוני – להחזיר כמו שהוא
     if (src.startsWith('http://') || src.startsWith('https://')) {
-        return src;
+      return src;
     }
-    // עבור קבצים מקומיים (כמו 'image_c2571e.png') הוסף '/'
+    // אם כבר יש / בתחילת הנתיב (קובץ תחת public) – גם מחזירים כמו שהוא
+    if (src.startsWith('/')) {
+      return src;
+    }
+    // אם זה רק שם קובץ – נוסיף /
     return '/' + src;
   };
 
@@ -240,10 +244,10 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
   };
-  
+
   // פונקציה להמרת קטגוריה לשם מוצג
   const getCategoryName = (category: string) => {
-    switch(category) {
+    switch (category) {
       case 'certificate':
         return 'תעודה';
       case 'recommendation':
@@ -259,20 +263,19 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
     <div className="max-w-5xl mx-auto">
       {/* Main Slider Display */}
       <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl aspect-[16/9] md:aspect-[2/1] group">
-        
-        {/* Main Image - Using the corrected image path function */}
+
+        {/* Main Image */}
         <div className="w-full h-full flex items-center justify-center bg-slate-800">
-           <img 
-             src={getImagePath(activeItem.src)} // FIX: Use getImagePath
-             alt={activeItem.title} 
-             className="max-h-full max-w-full object-contain transition-opacity duration-300"
-             onError={(e) => {
-               (e.target as HTMLImageElement).onerror = null; 
-               // Placeholder with Hebrew text
-               (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/e2e8f0/475569?text=תמונה+לא+נמצאה';
-             }}
-             onClick={() => setIsLightboxOpen(true)}
-           />
+          <img
+            src={getImagePath(activeItem.src)}
+            alt={activeItem.title}
+            className="max-h-full max-w-full object-contain transition-opacity duration-300"
+            onError={(e) => {
+              (e.target as HTMLImageElement).onerror = null;
+              (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/e2e8f0/475569?text=IMAGE+NOT+FOUND';
+            }}
+            onClick={() => setIsLightboxOpen(true)}
+          />
         </div>
 
         {/* Overlay Info */}
@@ -282,13 +285,13 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
         </div>
 
         {/* Controls */}
-        <button 
+        <button
           onClick={prevSlide}
           className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100"
         >
           <ChevronRight size={24} />
         </button>
-        <button 
+        <button
           onClick={nextSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100"
         >
@@ -296,7 +299,7 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
         </button>
 
         {/* Zoom Trigger */}
-        <button 
+        <button
           onClick={() => setIsLightboxOpen(true)}
           className="absolute top-4 left-4 bg-black/50 text-white p-2 rounded-lg hover:bg-black/70 transition-colors"
         >
@@ -310,16 +313,14 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
           <button
             key={item.id}
             onClick={() => setCurrentIndex(idx)}
-            className={`relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all snap-start ${
-              idx === currentIndex ? 'border-blue-600 ring-2 ring-blue-100 scale-105' : 'border-transparent opacity-60 hover:opacity-100'
-            }`}
+            className={`relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all snap-start ${idx === currentIndex ? 'border-blue-600 ring-2 ring-blue-100 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
           >
-            <img 
-              src={getImagePath(item.src)} // FIX: Use getImagePath
-              alt={item.title} 
-              className="w-full h-full object-cover" 
+            <img
+              src={getImagePath(item.src)}
+              alt={item.title}
+              className="w-full h-full object-cover"
               onError={(e) => {
-                 (e.target as HTMLImageElement).src = 'https://placehold.co/100x100/e2e8f0/475569?text=N/A'; // Use a basic placeholder for thumbnail error
+                (e.target as HTMLImageElement).src = 'https://placehold.co/100x100/e2e8f0/475569?text=N/A';
               }}
             />
           </button>
@@ -328,26 +329,25 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
 
       {/* Fullscreen Lightbox */}
       {isLightboxOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200"
           onClick={() => setIsLightboxOpen(false)}
         >
           <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
             <X size={32} />
           </button>
-          
-          <img 
-            src={getImagePath(activeItem.src)} // FIX: Use getImagePath
-            alt={activeItem.title} 
+
+          <img
+            src={getImagePath(activeItem.src)}
+            alt={activeItem.title}
             className="max-h-[90vh] max-w-full rounded shadow-2xl scale-in-95 animate-in duration-300"
             onClick={(e) => e.stopPropagation()}
             onError={(e) => {
-               (e.target as HTMLImageElement).onerror = null; 
-               // Placeholder with Hebrew text
-               (e.target as HTMLImageElement).src = 'https://placehold.co/800x600/e2e8f0/475569?text=תמונה+לא+נמצאה';
+              (e.target as HTMLImageElement).onerror = null;
+              (e.target as HTMLImageElement).src = 'https://placehold.co/800x600/e2e8f0/475569?text=IMAGE+NOT+FOUND';
             }}
           />
-          
+
           <div className="absolute bottom-6 left-0 right-0 text-center text-white">
             <h3 className="text-xl font-bold">{activeItem.title}</h3>
           </div>
@@ -362,7 +362,6 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
 export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
-  // עדכון ה-state של הסינון להכיל את הקטגוריה החדשה
   const [galleryFilter, setGalleryFilter] = useState<'all' | 'certificate' | 'recommendation' | 'student_message'>('all');
 
   // Handle scroll spy
@@ -392,11 +391,9 @@ export default function Portfolio() {
   };
 
   const NavLink = ({ to, label }: { to: string, label: string }) => (
-    <button 
+    <button
       onClick={() => scrollTo(to)}
-      className={`px-4 py-2 text-sm font-medium transition-colors ${
-        activeSection === to ? 'text-blue-600 bg-blue-50 rounded-lg' : 'text-slate-600 hover:text-blue-600'
-      }`}
+      className={`px-4 py-2 text-sm font-medium transition-colors ${activeSection === to ? 'text-blue-600 bg-blue-50 rounded-lg' : 'text-slate-600 hover:text-blue-600'}`}
     >
       {label}
     </button>
@@ -404,14 +401,14 @@ export default function Portfolio() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800" dir="rtl">
-      
+
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md shadow-sm z-50 border-b border-slate-100">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent cursor-pointer" onClick={() => scrollTo('home')}>
             יניב אברהם
           </div>
-          
+
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-2">
             <NavLink to="home" label="ראשי" />
@@ -444,11 +441,11 @@ export default function Portfolio() {
       {/* Hero Section */}
       <section id="home" className="pt-32 pb-20 px-6 relative overflow-hidden bg-white">
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-             <path d="M0 100 C 20 0 50 0 100 100 Z" fill="#2563eb" />
-           </svg>
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="#2563eb" />
+          </svg>
         </div>
-        
+
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
           <div className="flex-1 text-center md:text-right">
             <div className="inline-block px-4 py-1.5 mb-6 text-sm font-semibold text-blue-700 bg-blue-100 rounded-full border border-blue-200">
@@ -463,16 +460,16 @@ export default function Portfolio() {
             <p className="text-lg text-slate-500 mb-10 max-w-2xl leading-relaxed">
               {personalInfo.summary}
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button 
-                 onClick={() => window.print()}
-                 className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200"
+              <button
+                onClick={() => window.print()}
+                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-lg shadow-blue-200"
               >
                 <Download size={20} />
                 הורד קורות חיים
               </button>
-              <button 
+              <button
                 onClick={() => scrollTo('contact')}
                 className="flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-3.5 rounded-full font-bold transition-all shadow-sm"
               >
@@ -481,41 +478,40 @@ export default function Portfolio() {
               </button>
             </div>
           </div>
-          
+
           <div className="flex-1 relative flex justify-center">
             <div className="relative w-72 h-72 md:w-96 md:h-96">
               <div className="absolute inset-0 bg-blue-600 rounded-full opacity-10 animate-pulse"></div>
               <div className="absolute inset-4 bg-white rounded-full shadow-2xl flex items-center justify-center overflow-hidden border-4 border-white">
                 {/* תמונת הפרופיל של יניב אברהם */}
-                <img 
-                    src={profileImageUrl} 
-                    alt="תמונת פרופיל של יניב אברהם"
-                    className="w-full h-full object-cover rounded-full"
-                    onError={(e) => {
-                       // פולבק למקרה שהתמונה לא נטענת - הצגת אייקון גנרי
-                       (e.target as HTMLImageElement).style.display = 'none';
-                       const parent = (e.target as HTMLImageElement).parentElement;
-                       if(parent) {
-                           parent.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-200"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
-                       }
-                    }}
+                <img
+                  src={profileImageUrl}
+                  alt="תמונת פרופיל של יניב אברהם"
+                  className="w-full h-full object-cover rounded-full"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    const parent = (e.target as HTMLImageElement).parentElement;
+                    if (parent) {
+                      parent.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-200"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+                    }
+                  }}
                 />
               </div>
-              
+
               <div className="absolute top-0 right-0 bg-white p-3 rounded-xl shadow-lg border border-slate-100 flex items-center gap-3 animate-bounce" style={{ animationDuration: '3s' }}>
-                 <div className="bg-green-100 p-2 rounded-full text-green-600"><Briefcase size={20} /></div>
-                 <div>
-                   <p className="text-xs text-slate-500">ניסיון</p>
-                   <p className="font-bold text-slate-800">14+ שנים</p>
-                 </div>
+                <div className="bg-green-100 p-2 rounded-full text-green-600"><Briefcase size={20} /></div>
+                <div>
+                  <p className="text-xs text-slate-500">ניסיון</p>
+                  <p className="font-bold text-slate-800">14+ שנים</p>
+                </div>
               </div>
 
               <div className="absolute bottom-10 left-0 bg-white p-3 rounded-xl shadow-lg border border-slate-100 flex items-center gap-3 animate-bounce" style={{ animationDuration: '4s' }}>
-                 <div className="bg-orange-100 p-2 rounded-full text-orange-600"><Award size={20} /></div>
-                 <div>
-                   <p className="text-xs text-slate-500">הצטיינות</p>
-                   <p className="font-bold text-slate-800">פרס יוספטל</p>
-                 </div>
+                <div className="bg-orange-100 p-2 rounded-full text-orange-600"><Award size={20} /></div>
+                <div>
+                  <p className="text-xs text-slate-500">הצטיינות</p>
+                  <p className="font-bold text-slate-800">פרס יוספטל</p>
+                </div>
               </div>
             </div>
           </div>
@@ -526,7 +522,7 @@ export default function Portfolio() {
       <section id="about" className="py-20 bg-slate-50">
         <div className="container mx-auto px-6">
           <SectionTitle title="יכולות ומיומנויות" subtitle="שילוב ייחודי בין עולם הניהול התפעולי לעולמות ההוראה והטכנולוגיה" />
-          
+
           <div className="grid md:grid-cols-2 gap-16">
             <div>
               <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-2">
@@ -546,18 +542,18 @@ export default function Portfolio() {
                 למה אני?
               </h3>
               <div className="grid grid-cols-1 gap-6">
-                 <Card className="border-l-4 border-l-blue-500">
-                    <h4 className="font-bold text-lg mb-2 text-blue-800">חיבור אקדמיה-תעשייה</h4>
-                    <p className="text-slate-600">ניסיון עשיר בניהול קשרי מעסיקים, יצירת שיתופי פעולה עם חברות ענק והשמת בוגרים.</p>
-                 </Card>
-                 <Card className="border-l-4 border-l-cyan-500">
-                    <h4 className="font-bold text-lg mb-2 text-cyan-800">חדשנות טכנולוגית</h4>
-                    <p className="text-slate-600">שליטה בכלים מתקדמים כמו Power BI ו-AI, והיכולת להטמיע אותם בתהליכי עבודה והוראה.</p>
-                 </Card>
-                 <Card className="border-l-4 border-l-purple-500">
-                    <h4 className="font-bold text-lg mb-2 text-purple-800">מצוינות ניהולית</h4>
-                    <p className="text-slate-600">רקורד מוכח של ניהול צוותים, עמידה ביעדים וקבלת פרסי הצטיינות ארגוניים וצבאיים.</p>
-                 </Card>
+                <Card className="border-l-4 border-l-blue-500">
+                  <h4 className="font-bold text-lg mb-2 text-blue-800">חיבור אקדמיה-תעשייה</h4>
+                  <p className="text-slate-600">ניסיון עשיר בניהול קשרי מעסיקים, יצירת שיתופי פעולה עם חברות ענק והשמת בוגרים.</p>
+                </Card>
+                <Card className="border-l-4 border-l-cyan-500">
+                  <h4 className="font-bold text-lg mb-2 text-cyan-800">חדשנות טכנולוגית</h4>
+                  <p className="text-slate-600">שליטה בכלים מתקדמים כמו Power BI ו-AI, והיכולת להטמיע אותם בתהליכי עבודה והוראה.</p>
+                </Card>
+                <Card className="border-l-4 border-l-purple-500">
+                  <h4 className="font-bold text-lg mb-2 text-purple-800">מצוינות ניהולית</h4>
+                  <p className="text-slate-600">רקורד מוכח של ניהול צוותים, עמידה ביעדים וקבלת פרסי הצטיינות ארגוניים וצבאיים.</p>
+                </Card>
               </div>
             </div>
           </div>
@@ -568,7 +564,7 @@ export default function Portfolio() {
       <section id="experience" className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <SectionTitle title="ניסיון מקצועי" />
-          
+
           <div className="relative max-w-4xl mx-auto">
             <div className="absolute right-0 md:right-1/2 top-0 bottom-0 w-0.5 bg-slate-200 transform translate-x-1/2 md:translate-x-0 hidden md:block"></div>
 
@@ -576,10 +572,10 @@ export default function Portfolio() {
               {experience.map((job, index) => (
                 <div key={index} className={`flex flex-col md:flex-row gap-8 items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                   <div className="flex-1 w-full md:text-center md:mb-0 relative">
-                     <div className="hidden md:block absolute top-6 -right-4 md:left-1/2 md:right-auto md:-ml-2 w-4 h-4 rounded-full bg-blue-600 border-4 border-white shadow"></div>
-                     <span className="inline-block px-4 py-1 bg-slate-100 text-blue-800 rounded-full text-sm font-semibold border border-slate-200">
-                        {job.period}
-                     </span>
+                    <div className="hidden md:block absolute top-6 -right-4 md:left-1/2 md:right-auto md:-ml-2 w-4 h-4 rounded-full bg-blue-600 border-4 border-white shadow"></div>
+                    <span className="inline-block px-4 py-1 bg-slate-100 text-blue-800 rounded-full text-sm font-semibold border border-slate-200">
+                      {job.period}
+                    </span>
                   </div>
                   <div className="flex-1 w-full">
                     <Card className="hover:border-blue-200 group">
@@ -634,28 +630,28 @@ export default function Portfolio() {
       <section id="gallery" className="py-20 bg-slate-50">
         <div className="container mx-auto px-6">
           <SectionTitle title="גלריית מסמכים" subtitle="לחצו על תמונה להגדלה" />
-          
-          {/* Filter Buttons - נוסף כפתור חדש להודעות סטודנטים */}
+
+          {/* Filter Buttons */}
           <div className="flex justify-center gap-4 mb-10 flex-wrap">
-            <button 
+            <button
               onClick={() => setGalleryFilter('all')}
               className={`px-4 py-2 rounded-full transition-all text-sm ${galleryFilter === 'all' ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
             >
               הכל
             </button>
-            <button 
+            <button
               onClick={() => setGalleryFilter('certificate')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all text-sm ${galleryFilter === 'certificate' ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
             >
               <Award size={16} /> תעודות
             </button>
-            <button 
+            <button
               onClick={() => setGalleryFilter('recommendation')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all text-sm ${galleryFilter === 'recommendation' ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
             >
               <FileText size={16} /> המלצות רשמיות
             </button>
-            <button 
+            <button
               onClick={() => setGalleryFilter('student_message')}
               className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all text-sm ${galleryFilter === 'student_message' ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
             >
@@ -671,38 +667,38 @@ export default function Portfolio() {
       <section id="certificates" className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <SectionTitle title="השכלה ותעודות" />
-          
-          <div className="flex flex-col lg:flex-row gap-12">
-             <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
-                   <GraduationCap className="text-blue-600" /> השכלה פורמלית
-                </h3>
-                <div className="space-y-6">
-                   {education.map((edu, idx) => (
-                      <div key={idx} className="bg-white p-6 rounded-xl shadow-sm border-r-4 border-r-blue-600 border border-slate-100">
-                         <h4 className="font-bold text-lg text-slate-900">{edu.degree}</h4>
-                         <p className="text-slate-600">{edu.institution}</p>
-                         <p className="text-sm text-slate-400 mt-2">{edu.year || edu.details}</p>
-                      </div>
-                   ))}
-                </div>
-             </div>
 
-             <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
-                   <Award className="text-cyan-600" /> תעודות והוקרה
-                </h3>
-                <div className="grid sm:grid-cols-2 gap-4">
-                   {certificates.map((cert, idx) => (
-                      <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-3 hover:shadow-md transition-shadow">
-                         <div className="bg-yellow-50 text-yellow-600 p-2 rounded-full flex-shrink-0">
-                            <Star size={16} />
-                         </div>
-                         <span className="text-sm font-medium text-slate-700">{cert}</span>
-                      </div>
-                   ))}
-                </div>
-             </div>
+          <div className="flex flex-col lg:flex-row gap-12">
+            <div className="flex-1">
+              <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
+                <GraduationCap className="text-blue-600" /> השכלה פורמלית
+              </h3>
+              <div className="space-y-6">
+                {education.map((edu, idx) => (
+                  <div key={idx} className="bg-white p-6 rounded-xl shadow-sm border-r-4 border-r-blue-600 border border-slate-100">
+                    <h4 className="font-bold text-lg text-slate-900">{edu.degree}</h4>
+                    <p className="text-slate-600">{edu.institution}</p>
+                    <p className="text-sm text-slate-400 mt-2">{edu.year || edu.details}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex-1">
+              <h3 className="text-2xl font-bold mb-8 text-slate-800 flex items-center gap-3">
+                <Award className="text-cyan-600" /> תעודות והוקרה
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {certificates.map((cert, idx) => (
+                  <div key={idx} className="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div className="bg-yellow-50 text-yellow-600 p-2 rounded-full flex-shrink-0">
+                      <Star size={16} />
+                    </div>
+                    <span className="text-sm font-medium text-slate-700">{cert}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -711,34 +707,34 @@ export default function Portfolio() {
       <section id="contact" className="py-20 bg-white border-t border-slate-100">
         <div className="container mx-auto px-6">
           <div className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-3xl p-8 md:p-16 text-white text-center shadow-2xl">
-             <h2 className="text-3xl md:text-4xl font-bold mb-6">מוכנים לעבוד יחד?</h2>
-             <p className="text-blue-200 mb-10 max-w-2xl mx-auto text-lg">
-                אני זמין להובלת פרויקטים, ניהול מגמות ושיתופי פעולה המחברים בין טכנולוגיה, חינוך ותעשייה.
-             </p>
-             
-             <div className="flex flex-col md:flex-row justify-center gap-8 mb-12">
-                <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                   <Phone className="text-cyan-400" />
-                   <span className="text-xl font-mono">{personalInfo.phone}</span>
-                </div>
-                <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                   <Mail className="text-cyan-400" />
-                   <span className="text-xl font-mono">{personalInfo.email}</span>
-                </div>
-                <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                   <MapPin className="text-cyan-400" />
-                   <span className="text-xl">{personalInfo.location}</span>
-                </div>
-             </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">מוכנים לעבוד יחד?</h2>
+            <p className="text-blue-200 mb-10 max-w-2xl mx-auto text-lg">
+              אני זמין להובלת פרויקטים, ניהול מגמות ושיתופי פעולה המחברים בין טכנולוגיה, חינוך ותעשייה.
+            </p>
 
-             <div className="flex justify-center gap-4">
-                <a href="#" className="p-3 bg-blue-600 hover:bg-blue-500 rounded-full transition-colors"><Linkedin /></a>
-                <a href={`mailto:${personalInfo.email}`} className="p-3 bg-blue-600 hover:bg-blue-500 rounded-full transition-colors"><Mail /></a>
-             </div>
+            <div className="flex flex-col md:flex-row justify-center gap-8 mb-12">
+              <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
+                <Phone className="text-cyan-400" />
+                <span className="text-xl font-mono">{personalInfo.phone}</span>
+              </div>
+              <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
+                <Mail className="text-cyan-400" />
+                <span className="text-xl font-mono">{personalInfo.email}</span>
+              </div>
+              <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
+                <MapPin className="text-cyan-400" />
+                <span className="text-xl">{personalInfo.location}</span>
+              </div>
+            </div>
+
+            <div className="flex justify-center gap-4">
+              <a href="#" className="p-3 bg-blue-600 hover:bg-blue-500 rounded-full transition-colors"><Linkedin /></a>
+              <a href={`mailto:${personalInfo.email}`} className="p-3 bg-blue-600 hover:bg-blue-500 rounded-full transition-colors"><Mail /></a>
+            </div>
           </div>
-          
+
           <footer className="text-center text-slate-400 mt-12 text-sm">
-             © {new Date().getFullYear()} {personalInfo.name}. כל הזכויות שמורות.
+            © {new Date().getFullYear()} {personalInfo.name}. כל הזכויות שמורות.
           </footer>
         </div>
       </section>
