@@ -167,16 +167,26 @@ const galleryItems = [
 
 
 // --- Components ---
-
-const SectionTitle = ({ title, subtitle }: { title: string, subtitle?: string }) => (
+const SectionTitle = ({
+  title,
+  subtitle,
+  colorClass = "text-slate-800",
+}: {
+  title: string;
+  subtitle?: string;
+  colorClass?: string;
+}) => (
   <div className="mb-12 text-center" data-aos="fade-up">
-    <h2 className="text-3xl font-bold text-slate-800 relative inline-block pb-4">
+    <h2 className={`text-3xl font-bold relative inline-block pb-4 ${colorClass}`}>
       {title}
       <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-blue-600 rounded-full"></span>
     </h2>
-    {subtitle && <p className="text-slate-500 mt-4 max-w-2xl mx-auto">{subtitle}</p>}
+    {subtitle && (
+      <p className="text-slate-500 mt-4 max-w-2xl mx-auto">{subtitle}</p>
+    )}
   </div>
 );
+
 
 const Card = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
   <div className={`bg-white rounded-xl shadow-lg border border-slate-100 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${className}`}>
@@ -649,32 +659,44 @@ export default function Portfolio() {
       </section>
 
       {/* Recommendations Text */}
-      <section id="recommendations" className="py-20 bg-slate-900 text-white relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full opacity-20 blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600 rounded-full opacity-20 blur-3xl"></div>
+      <section
+  id="recommendations"
+  className="py-20 bg-slate-900 text-white relative overflow-hidden"
+>
+  <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600 rounded-full opacity-20 blur-3xl"></div>
+  <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600 rounded-full opacity-20 blur-3xl"></div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          <SectionTitle title="המלצות והערכה"/>
-          <p className="text-center text-slate-400 -mt-8 mb-16">מתוך מכתבי ההמלצה בתיק המועמד</p>
+  <div className="container mx-auto px-6 relative z-10">
+    <SectionTitle
+      title="המלצות והערכה"
+      colorClass="text-white"
+    />
+    <p className="text-center text-slate-400 -mt-8 mb-16">
+      מתוך מכתבי ההמלצה בתיק המועמד
+    </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {recommendations.map((rec, index) => (
-              <div key={index} className="bg-slate-800 p-6 rounded-xl border border-slate-700 relative hover:bg-slate-750 transition-colors">
-                <div className="absolute -top-3 right-6 bg-blue-600 text-white p-2 rounded-lg">
-                  <span className="text-2xl">❝</span>
-                </div>
-                <p className="text-slate-300 mb-6 mt-4 text-sm leading-relaxed italic opacity-90">
-                  "{rec.text}"
-                </p>
-                <div className="border-t border-slate-700 pt-4 mt-auto">
-                  <h5 className="font-bold text-white">{rec.name}</h5>
-                  <p className="text-xs text-blue-400">{rec.role}</p>
-                </div>
-              </div>
-            ))}
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {recommendations.map((rec, index) => (
+        <div
+          key={index}
+          className="bg-slate-800 p-6 rounded-xl border border-slate-700 relative hover:bg-slate-750 transition-colors"
+        >
+          <div className="absolute -top-3 right-6 bg-blue-600 text-white p-2 rounded-lg">
+            <span className="text-2xl">❝</span>
+          </div>
+          <p className="text-slate-300 mb-6 mt-4 text-sm leading-relaxed italic opacity-90">
+            "{rec.text}"
+          </p>
+          <div className="border-t border-slate-700 pt-4 mt-auto">
+            <h5 className="font-bold text-white">{rec.name}</h5>
+            <p className="text-xs text-blue-400">{rec.role}</p>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Gallery Section */}
       <section id="gallery" className="py-20 bg-slate-50">
