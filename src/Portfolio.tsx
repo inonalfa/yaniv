@@ -654,7 +654,7 @@ export default function Portfolio() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600 rounded-full opacity-20 blur-3xl"></div>
 
         <div className="container mx-auto px-6 relative z-10">
-          <SectionTitle title="המלצות והערכה" />
+          <SectionTitle title="המלצות והערכה" color="text-white"/>
           <p className="text-center text-slate-400 -mt-8 mb-16">מתוך מכתבי ההמלצה בתיק המועמד</p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
