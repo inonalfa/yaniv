@@ -8,7 +8,6 @@ import {
   GraduationCap,
   Award,
   Star,
-  Linkedin,
   Menu,
   X,
   Layers,
@@ -764,24 +763,31 @@ export default function Portfolio() {
             </p>
 
             <div className="flex flex-col md:flex-row justify-center gap-8 mb-12">
-              <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                <Phone className="text-cyan-400" />
-                <span className="text-xl font-mono">{personalInfo.phone}</span>
-              </div>
-              <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                <Mail className="text-cyan-400" />
-                <span className="text-xl font-mono">{personalInfo.email}</span>
-              </div>
-              <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                <MapPin className="text-cyan-400" />
-                <span className="text-xl">{personalInfo.location}</span>
-              </div>
-            </div>
+  {/* טלפון – קישור לחיוג */}
+  <a
+    href={`tel:${personalInfo.phone.replace(/-/g, '')}`}
+    className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm hover:bg-white/20 transition-colors"
+  >
+    <Phone className="text-cyan-400" />
+    <span className="text-xl font-mono">{personalInfo.phone}</span>
+  </a>
 
-            <div className="flex justify-center gap-4">
-              <a href="#" className="p-3 bg-blue-600 hover:bg-blue-500 rounded-full transition-colors"><Linkedin /></a>
-              <a href={`mailto:${personalInfo.email}`} className="p-3 bg-blue-600 hover:bg-blue-500 rounded-full transition-colors"><Mail /></a>
-            </div>
+  {/* אימייל – קישור לשליחת מייל */}
+  <a
+    href={`mailto:${personalInfo.email}`}
+    className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm hover:bg-white/20 transition-colors"
+  >
+    <Mail className="text-cyan-400" />
+    <span className="text-xl font-mono">{personalInfo.email}</span>
+  </a>
+
+  {/* מיקום – אפשר להשאיר כדיב רגיל או להפוך לקישור ל־Google Maps אם תרצה */}
+  <div className="flex items-center justify-center gap-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
+    <MapPin className="text-cyan-400" />
+    <span className="text-xl">{personalInfo.location}</span>
+  </div>
+</div>
+
           </div>
 
           <footer className="text-center text-slate-400 mt-12 text-sm">
