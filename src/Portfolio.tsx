@@ -205,34 +205,30 @@ const SkillBar = ({ name, level, icon }: { name: string, level: number, icon: an
 
 // --- Gallery Slider Component ---
 
-const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: string }) => {
+const GallerySlider = ({ items, filter }: { items: typeof galleryItems; filter: string }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  // Filter items
-  const filteredItems = items.filter(item => filter === 'all' || item.category === filter);
+  const filteredItems = items.filter(
+    (item) => filter === "all" || item.category === filter
+  );
 
-  // Reset index when filter changes
   useEffect(() => {
     setCurrentIndex(0);
   }, [filter]);
 
-  // פונקציה לבדיקת נתיב תמונה
   const getImagePath = (src: string) => {
-    // אם זה URL חיצוני – להחזיר כמו שהוא
-    if (src.startsWith('http://') || src.startsWith('https://')) {
-      return src;
-    }
-    // אם כבר יש / בתחילת הנתיב (קובץ תחת public) – גם מחזירים כמו שהוא
-    if (src.startsWith('/')) {
-      return src;
-    }
-    // אם זה רק שם קובץ – נוסיף /
-    return '/' + src;
+    if (src.startsWith("http://") || src.startsWith("https://")) return src;
+    if (src.startsWith("/")) return src;
+    return "/" + src;
   };
 
   if (filteredItems.length === 0) {
-    return <div className="text-center py-10 text-slate-500">לא נמצאו מסמכים בקטגוריה זו.</div>;
+    return (
+      <div className="text-center py-10 text-slate-500">
+        לא נמצאו מסמכים בקטגוריה זו.
+      </div>
+    );
   }
 
   const activeItem = filteredItems[currentIndex];
@@ -245,110 +241,158 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
     setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
   };
 
-  // פונקציה להמרת קטגוריה לשם מוצג
   const getCategoryName = (category: string) => {
     switch (category) {
-      case 'certificate':
-        return 'תעודה';
-      case 'recommendation':
-        return 'המלצה רשמית';
-      case 'student_message':
-        return 'הודעת סטודנט';
+      case "certificate":
+        return "תעודה";
+      case "recommendation":
+        return "המלצה רשמית";
+      case "student_message":
+        return "הודעת סטודנט";
       default:
-        return 'מסמך';
+        return "מסמך";
     }
   };
 
   return (
-    <div
-    className="min-h-screen bg-slate-50 font-sans text-slate-800 overflow-x-hidden"
-    dir="rtl"
-  >
     <div className="max-w-5xl mx-auto">
-      {/* Main Slider Display */}
-      <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl aspect-[16/9] md:aspect-[2/1] group">
-
-        {/* Main Image */}
-        <div className="w-full h-full flex items-center justify-center bg-slate-800">
-          <img
-            src={getImagePath(activeItem.src)}
-            alt={activeItem.title}
-            className="max-h-full max-w-full object-contain transition-opacity duration-300"
-            onError={(e) => {
-              (e.target as HTMLImageElement).onerror = null;
-              (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/e2e8f0/475569?text=IMAGE+NOT+FOUND';
-            }}
-            onClick={() => setIsLightboxOpen(true)}
-          />
-        </div>
-
-        {/* Overlay Info */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white transform translate-y-0 transition-transform">
-          <h3 className="text-xl font-bold">{activeItem.title}</h3>
-          <p className="text-sm opacity-80">{getCategoryName(activeItem.category)}</p>
-        </div>
-
-        {/* Controls */}
-        <button
-          onClick={prevSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100"
-        >
-          <ChevronRight size={24} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100"
-        >
-          <ChevronLeft size={24} />
-        </button>
-
-        {/* Zoom Trigger */}
-        <button
-          onClick={() => setIsLightboxOpen(true)}
-          className="absolute top-4 left-4 bg-black/50 text-white p-2 rounded-lg hover:bg-black/70 transition-colors"
-        >
-          <Maximize2 size={20} />
-        </button>
-      </div>
-
-      {/* Thumbnails Navigation */}
-      <div className="mt-6 flex gap-3 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-transparent snap-x" style={{ direction: 'rtl' }}>
-        {filteredItems.map((item, idx) => (
-          <button
-            key={item.id}
-            onClick={() => setCurrentIndex(idx)}
-            className={`relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all snap-start ${idx === currentIndex ? 'border-blue-600 ring-2 ring-blue-100 scale-105' : 'border-transparent opacity-60 hover:opacity-100'}`}
-          >
+      {/* --- דסקטופ / טאבלט: סליידר מלא --- */}
+      <div className="hidden md:block">
+        <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl aspect-[16/9] md:aspect-[2/1] group">
+          <div className="w-full h-full flex items-center justify-center bg-slate-800">
             <img
-              src={getImagePath(item.src)}
-              alt={item.title}
-              className="w-full h-full object-cover"
+              src={getImagePath(activeItem.src)}
+              alt={activeItem.title}
+              className="max-h-full max-w-full object-contain transition-opacity duration-300"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://placehold.co/100x100/e2e8f0/475569?text=N/A';
+                (e.target as HTMLImageElement).onerror = null;
+                (e.target as HTMLImageElement).src =
+                  "https://placehold.co/600x400/e2e8f0/475569?text=IMAGE+NOT+FOUND";
               }}
+              onClick={() => setIsLightboxOpen(true)}
             />
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+            <h3 className="text-xl font-bold">{activeItem.title}</h3>
+            <p className="text-sm opacity-80">{getCategoryName(activeItem.category)}</p>
+          </div>
+
+          <button
+            onClick={prevSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100"
+          >
+            <ChevronRight size={24} />
           </button>
-        ))}
+          <button
+            onClick={nextSlide}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          <button
+            onClick={() => setIsLightboxOpen(true)}
+            className="absolute top-4 left-4 bg-black/50 text-white p-2 rounded-lg hover:bg-black/70 transition-colors"
+          >
+            <Maximize2 size={20} />
+          </button>
+        </div>
+
+        {/* ת’אמבניילים בדסקטופ */}
+        <div className="mt-6 hidden md:flex gap-3 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-transparent snap-x">
+          {filteredItems.map((item, idx) => (
+            <button
+              key={item.id}
+              onClick={() => setCurrentIndex(idx)}
+              className={`relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 transition-all snap-start ${
+                idx === currentIndex
+                  ? "border-blue-600 ring-2 ring-blue-100 scale-105"
+                  : "border-transparent opacity-60 hover:opacity-100"
+              }`}
+            >
+              <img
+                src={getImagePath(item.src)}
+                alt={item.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://placehold.co/100x100/e2e8f0/475569?text=N/A";
+                }}
+              />
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Fullscreen Lightbox */}
+      {/* --- מובייל: רק ת’אמבניילים, פתיחה בלייטבוקס --- */}
+      <div className="md:hidden">
+        <div
+          className="flex gap-3 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-transparent snap-x"
+          style={{ direction: "rtl" }}
+        >
+          {filteredItems.map((item, idx) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                setCurrentIndex(idx);
+                setIsLightboxOpen(true);
+              }}
+              className="relative flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 border-transparent snap-start active:scale-95 transition-all"
+            >
+              <img
+                src={getImagePath(item.src)}
+                alt={item.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://placehold.co/100x100/e2e8f0/475569?text=N/A";
+                }}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* --- לייטבוקס (גם מובייל וגם דסקטופ) --- */}
       {isLightboxOpen && (
         <div
-          className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4 backdrop-blur-sm"
           onClick={() => setIsLightboxOpen(false)}
         >
           <button className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors">
             <X size={32} />
           </button>
 
+          {/* ניווט בתוך הלייטבוקס */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white p-3 rounded-full"
+          >
+            <ChevronRight size={24} />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white p-3 rounded-full"
+          >
+            <ChevronLeft size={24} />
+          </button>
+
           <img
             src={getImagePath(activeItem.src)}
             alt={activeItem.title}
-            className="max-h-[90vh] max-w-full rounded shadow-2xl scale-in-95 animate-in duration-300"
+            className="max-h-[90vh] max-w-full rounded shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             onError={(e) => {
               (e.target as HTMLImageElement).onerror = null;
-              (e.target as HTMLImageElement).src = 'https://placehold.co/800x600/e2e8f0/475569?text=IMAGE+NOT+FOUND';
+              (e.target as HTMLImageElement).src =
+                "https://placehold.co/800x600/e2e8f0/475569?text=IMAGE+NOT+FOUND";
             }}
           />
 
@@ -358,9 +402,9 @@ const GallerySlider = ({ items, filter }: { items: typeof galleryItems, filter: 
         </div>
       )}
     </div>
-    </div>
   );
 };
+
 
 // --- Main Application ---
 
